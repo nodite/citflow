@@ -1,0 +1,90 @@
+{
+  "name": "citflow",
+  "description": "A amazing command line interface to operate citflow.",
+  "version": "0.0.0",
+  "author": "Oscaner Miao",
+  "bin": {
+    "citflow": "./bin/run.js"
+  },
+  "bugs": "https://github.com/nodite/citflow/issues",
+  "dependencies": {
+    "@oclif/core": "^4",
+    "@oclif/plugin-help": "^6",
+    "@oclif/plugin-plugins": "^5"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19",
+    "@commitlint/config-conventional": "^19",
+    "@commitlint/types": "^19",
+    "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9",
+    "@oclif/prettier-config": "^0",
+    "@oclif/test": "^4",
+    "@types/chai": "^5",
+    "@types/mocha": "^10",
+    "@types/node": "^22",
+    "@typescript-eslint/eslint-plugin": "^8",
+    "@typescript-eslint/parser": "^8",
+    "@typescript-eslint/typescript-estree": "^8",
+    "chai": "^5",
+    "eslint": "^9",
+    "eslint-config-oclif": "^6",
+    "eslint-config-prettier": "^10",
+    "eslint-plugin-n": "^17",
+    "eslint-plugin-perfectionist": "^4",
+    "eslint-plugin-prettier": "^5",
+    "eslint-plugin-unicorn": "^59",
+    "globals": "^16",
+    "husky": "^9",
+    "mocha": "^11",
+    "oclif": "^4",
+    "prettier": "^3",
+    "shx": "^0",
+    "ts-node": "^10",
+    "typescript": "^5"
+  },
+  "overrides": {},
+  "engines": {
+    "node": ">20.6.0"
+  },
+  "files": [
+    "./bin",
+    "./dist",
+    "./oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/https://github.com/nodite/citflow/citflow",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "type": "module",
+  "oclif": {
+    "bin": "citflow",
+    "dirname": "citflow",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "hello": {
+        "description": "Say hello to the world and others"
+      }
+    }
+  },
+  "repository": "https://github.com/nodite/citflow",
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . -c eslint.config.mjs",
+    "lint:fix": "eslint . --fix -c eslint.config.mjs",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "npm run lint",
+    "prepack": "oclif manifest && oclif readme",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif readme && git add README.md",
+    "prepare": "husky"
+  },
+  "types": "dist/index.d.ts"
+}

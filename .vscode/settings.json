@@ -1,0 +1,61 @@
+{
+  // js/ts
+  "eslint.validate": ["javascript", "typescript"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "eslint.format.enable": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // "[markdown]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+
+  // python
+  // "notebook.formatOnSave.enabled": true,
+  // "notebook.codeActionsOnSave": {
+  //   "source.organizeImports": "explicit"
+  // },
+  "jupyter.notebookFileRoot": "${workspaceFolder}"
+  // "[python]": {
+  //   "editor.codeActionsOnSave": {
+  //     "source.organizeImports": "explicit"
+  //   },
+  //   "editor.defaultFormatter": "ms-python.black-formatter",
+  //   "editor.formatOnSave": true
+  // },
+  // "black-formatter.args": ["--line-length", "88"],
+  // "isort.args": ["--multi-line=3", "--trailing-comma", "--force-grid-wrap=0", "--use-parentheses", "--line-width=88"],
+  // "java.compile.nullAnalysis.mode": "automatic"
+}
