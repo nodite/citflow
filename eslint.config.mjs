@@ -118,6 +118,7 @@ export default [
       'sort-imports': 'off',
       'sort-keys': 'off',
       'unicorn/error-message': 'off',
+      'unicorn/no-abusive-eslint-disable': 'off',
       'unicorn/no-array-for-each': 'off',
       'unicorn/prefer-dom-node-dataset': 'off',
       'unicorn/prefer-global-this': 'off',
