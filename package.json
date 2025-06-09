@@ -15,9 +15,11 @@
     "axios-cache-interceptor": "^1",
     "dotenv": "^16",
     "fs-extra": "^11",
+    "http-cookie-agent": "^7",
     "http-status": "^2",
     "lodash": "^4",
-    "pkg-dir": "^8"
+    "pkg-dir": "^8",
+    "tough-cookie": "^5"
   },
   "devDependencies": {
     "@commitlint/cli": "^19",

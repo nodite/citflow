@@ -1,12 +1,23 @@
 import _axios from 'axios'
 import {AxiosCacheInstance, buildMemoryStorage, setupCache} from 'axios-cache-interceptor'
 
-const axios = _axios.create()
+import {setupCookieJar} from './plugin/cookie.js'
 
-setupCache(axios, {
-  interpretHeader: false,
-  storage: buildMemoryStorage(),
-  ttl: 1000 * 60 * 5, // 5min
-})
+const createAxios = (...axiosConfig: Parameters<typeof _axios.create>) => {
+  const axios = _axios.create(...axiosConfig)
 
-export default axios as AxiosCacheInstance
+  setupCache(axios, {
+    interpretHeader: false,
+    storage: buildMemoryStorage(),
+    ttl: 1000 * 60 * 5, // 5min
+  })
+
+  setupCookieJar(axios)
+
+  return axios
+}
+
+const defaultAxios = createAxios()
+
+export default defaultAxios as AxiosCacheInstance
+export {createAxios}

@@ -17,7 +17,7 @@ import type {
   HeadersDefaults,
   ResponseType,
 } from "axios";
-import axios from "./index.js";
+import { createAxios } from "./index.js";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -71,7 +71,7 @@ export class HttpClient<SecurityDataType = unknown> {
     format,
     ...axiosConfig
   }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({
+    this.instance = createAxios({
       ...axiosConfig,
       baseURL: axiosConfig.baseURL || "",
     });
