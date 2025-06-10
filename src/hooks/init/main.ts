@@ -1,5 +1,5 @@
-import '../../components/cache/index.js'
-import '../../env.js'
+import '@components/cache'
+import '@env'
 
 import {Hook} from '@oclif/core'
 import lodash from 'lodash'

@@ -1,10 +1,9 @@
 import path from 'node:path'
 
+import {OPENAPI_DIR} from '@env'
 import fs from 'fs-extra'
 import lodash from 'lodash'
 import {generateApi} from 'swagger-typescript-api'
-
-import {OPENAPI_DIR} from '../../env.js'
 
 type GenerateApiConfiguration = Awaited<ReturnType<typeof generateApi>>['configuration']['config']
 
