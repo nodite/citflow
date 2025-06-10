@@ -8,15 +8,22 @@
   },
   "bugs": "https://github.com/nodite/citflow/issues",
   "dependencies": {
+    "@keyv/sqlite": "^4",
+    "@nodite/cache-manager-adapter": "github:nodite/type-cacheable-cache-manager-adapter#main",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
+    "@type-cacheable/core": "^14",
     "axios": "^1",
     "axios-cache-interceptor": "^1",
+    "better-sqlite3": "^11",
+    "cache-manager": "^7",
+    "cacheable": "^1",
     "dotenv": "^16",
     "fs-extra": "^11",
     "http-cookie-agent": "^7",
     "http-status": "^2",
+    "keyv": "^5",
     "lodash": "^4",
     "pkg-dir": "^8",
     "tough-cookie": "^5"
@@ -29,6 +36,7 @@
     "@eslint/js": "^9",
     "@oclif/prettier-config": "^0",
     "@oclif/test": "^4",
+    "@types/better-sqlite3": "^7",
     "@types/chai": "^5",
     "@types/fs-extra": "^11",
     "@types/lodash": "^4",
@@ -75,6 +83,14 @@
     "bin": "citflow",
     "dirname": "citflow",
     "commands": "./dist/commands",
+    "hooks": {
+      "init": [
+        "./dist/hooks/init/main"
+      ],
+      "finally": [
+        "./dist/hooks/finally/main"
+      ]
+    },
     "plugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-plugins"
