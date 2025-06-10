@@ -1,10 +1,11 @@
-import '../../components/cache/index.js'
-import '../../env.js'
-
-import {Hook} from '@oclif/core'
 import lodash from 'lodash'
 
 lodash.templateSettings.interpolate = /{{([\S\s]+?)}}/g
+
+import '@env'
+import '@components/cache'
+
+import {Hook} from '@oclif/core'
 
 const hook: Hook.Init = async function () {}
 

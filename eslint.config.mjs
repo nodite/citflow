@@ -5,6 +5,8 @@ import {FlatCompat} from '@eslint/eslintrc'
 import js from '@eslint/js'
 import tsParser from '@typescript-eslint/parser'
 import oclif from 'eslint-config-oclif'
+import {createTypeScriptImportResolver} from 'eslint-import-resolver-typescript'
+import {importX} from 'eslint-plugin-import-x'
 import nodePlugin from 'eslint-plugin-n'
 import globals from 'globals'
 
@@ -21,6 +23,8 @@ const compat = new FlatCompat({
 /** @type { import("eslint").Linter.Config[] } */
 export default [
   js.configs.recommended,
+  importX.flatConfigs.recommended,
+  importX.flatConfigs.typescript,
   ...oclif,
   ...compat.extends(
     'eslint:recommended',
@@ -32,16 +36,17 @@ export default [
     ignores: ['dist', 'node_modules', 'src/assets/*.js', 'tmp'],
   },
   {
-    files: ['*.ts', '*.tsx'],
+    files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
   },
   {
     languageOptions: {
-      ecmaVersion: 2017,
+      ecmaVersion: 'latest',
 
       globals: {
         ...globals.jest,
         ...globals.node,
       },
+
       parser: tsParser,
       sourceType: 'module',
     },
@@ -64,8 +69,12 @@ export default [
       ],
       camelcase: 'off',
       complexity: 'off',
+      'import-x/no-dynamic-require': 'warn',
+      'import-x/no-named-as-default-member': 'off',
+      'import-x/no-nodejs-modules': 'off',
       'import/default': 'off',
       'import/no-named-as-default-member': 'off',
+      'import/no-unresolved': 'off',
       'import/order': 'off',
       'max-len': [
         'error',
@@ -93,10 +102,10 @@ export default [
         {
           groups: [
             'side-effect',
-            ['builtin', 'builtin-type'],
-            'type',
-            ['external', 'external-type'],
-            ['internal', 'internal-type'],
+            ['builtin'],
+            ['type', 'builtin-type', 'external-type', 'internal-type'],
+            ['external'],
+            ['internal'],
             ['parent-type', 'sibling-type', 'index-type'],
             ['parent', 'sibling', 'index'],
             'object',
@@ -110,10 +119,7 @@ export default [
       'perfectionist/sort-interfaces': ['error', {type: 'natural'}],
       'perfectionist/sort-object-types': ['error', {type: 'natural'}],
       'perfectionist/sort-objects': ['error', {type: 'natural'}],
-      'perfectionist/sort-switch-case': [
-        'error',
-        {fallbackSort: {type: 'alphabetical'}, locales: 'zh-CN', type: 'natural'},
-      ],
+      'perfectionist/sort-switch-case': ['error', {type: 'natural'}],
       semi: ['error', 'never'],
       'sort-imports': 'off',
       'sort-keys': 'off',
@@ -126,6 +132,12 @@ export default [
     },
 
     settings: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true,
+          bun: true,
+        }),
+      ],
       perfectionist: {
         partitionByComment: true,
         type: 'line-length',

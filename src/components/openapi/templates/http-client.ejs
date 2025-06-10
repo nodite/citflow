@@ -2,8 +2,8 @@
 const { apiConfig, generateResponses, config } = it;
 %>
 
+import { createAxios } from "@components/axios";
 import type { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType, AxiosResponse } from "axios";
-import { createAxios } from "./index.js";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -133,6 +133,7 @@ export class HttpClient<SecurityDataType = unknown> {
             responseType: responseFormat,
             data: body,
             url: path,
+            secure,
 <% if (config.unwrapResponseData) { %>
         }).then(response => response.data);
 <% } else { %>

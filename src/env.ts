@@ -12,4 +12,6 @@ const PKG_SRC_DIR = path.join(PKG_DIR, 'src')
 
 const OPENAPI_DIR = path.join(PKG_SRC_DIR, 'components', 'openapi')
 
-export {CLI_DIR, OPENAPI_DIR, PKG_DIR, PKG_SRC_DIR}
+const FLOW_BASE_URL = 'https://flow.ciandt.com/'
+
+export {CLI_DIR, FLOW_BASE_URL, OPENAPI_DIR, PKG_DIR, PKG_SRC_DIR}

@@ -10,6 +10,7 @@
  * ---------------------------------------------------------------
  */
 
+import { createAxios } from "@components/axios";
 import type {
   AxiosInstance,
   AxiosRequestConfig,
@@ -17,7 +18,6 @@ import type {
   HeadersDefaults,
   ResponseType,
 } from "axios";
-import { createAxios } from "./index.js";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -180,6 +180,7 @@ export class HttpClient<SecurityDataType = unknown> {
       responseType: responseFormat,
       data: body,
       url: path,
+      secure,
     });
   };
 }
