@@ -1,6 +1,7 @@
 import {AxiosInstance, AxiosRequestConfig} from 'axios'
 import {HttpCookieAgent, HttpsCookieAgent} from 'http-cookie-agent/http'
 import lodash from 'lodash'
+import {Cookie as PPCookie} from 'puppeteer'
 import {Cookie, CookieJar} from 'tough-cookie'
 
 const jar = new CookieJar()
@@ -85,22 +86,65 @@ const setupCookieJar = (axios: AxiosInstance): AxiosInstance => {
   return axios
 }
 
-const toString = (cookie: Cookie): string => {
+const toString = (cookie: Cookie | PPCookie): string => {
   const cks = []
 
-  cks.push(`${cookie.key}=${cookie.value}`)
+  if (cookie instanceof Cookie) {
+    cks.push(`${cookie.key}=${cookie.value}`)
 
-  if (cookie.domain) cks.push(`Domain=${cookie.domain}`)
-  if (cookie.path) cks.push(`Path=${cookie.path}`)
-  if (cookie.expires) cks.push(`Expires=${cookie.expires}`)
-  if (cookie.httpOnly) cks.push(`HttpOnly`)
-  if (cookie.secure) cks.push(`Secure`)
-  if (cookie.sameSite) cks.push(`SameSite=${cookie.sameSite}`)
-  if (cookie.maxAge) cks.push(`Max-Age=${cookie.maxAge}`)
-  if (cookie.extensions) cks.push(...cookie.extensions)
+    if (cookie.domain) cks.push(`Domain=${cookie.domain}`)
+    if (cookie.path) cks.push(`Path=${cookie.path}`)
+    if (cookie.expires) cks.push(`Expires=${cookie.expires}`)
+    if (cookie.httpOnly) cks.push(`HttpOnly`)
+    if (cookie.secure) cks.push(`Secure`)
+    if (cookie.sameSite) cks.push(`SameSite=${cookie.sameSite}`)
+    if (cookie.maxAge) cks.push(`Max-Age=${cookie.maxAge}`)
+    if (cookie.extensions) cks.push(...cookie.extensions)
+  } else {
+    cks.push(`${cookie.name}=${cookie.value}`)
+
+    if (cookie.domain) cks.push(`Domain=${cookie.domain}`)
+    if (cookie.path) cks.push(`Path=${cookie.path}`)
+    if (cookie.expires) cks.push(`Expires=${cookie.expires}`)
+    if (cookie.httpOnly) cks.push(`HttpOnly`)
+    if (cookie.secure) cks.push(`Secure`)
+    if (cookie.sameSite) cks.push(`SameSite=${cookie.sameSite}`)
+    if (cookie.size > 0) cks.push(`Size=${cookie.size}`)
+    if (cookie.session) cks.push(`Session`)
+    if (cookie.priority) cks.push(`Priority=${cookie.priority}`)
+  }
 
   return cks.join('; ')
 }
 
-export default {jar, setupCookieJar, toString}
-export {setupCookieJar}
+const toPuppeteer = (cookie: Cookie): PPCookie => {
+  const cks = {} as PPCookie
+
+  cks.domain = cookie.domain || ''
+  cks.domain = cks.domain.split('.').length === 2 ? `.${cks.domain}` : cks.domain
+
+  if (cookie.expires === 'Infinity') {
+    cks.expires = -1
+  } else if (cookie.expires) {
+    cks.expires = cookie.expires.getTime() / 1000
+  } else {
+    cks.expires = -1
+  }
+
+  cks.httpOnly = cookie.httpOnly
+  cks.name = cookie.key
+  cks.path = cookie.path || '/'
+  cks.sameSite = cookie.sameSite as PPCookie['sameSite']
+  cks.secure = cookie.secure
+  cks.session = Boolean(cookie.extensions?.includes('Session'))
+
+  const size = lodash.find(cookie.extensions, (v: string) => v.startsWith('Size'))
+  cks.size = Number(size?.split('=')?.[1] ?? encodeURIComponent(cookie.value).length)
+
+  cks.value = cookie.value
+
+  return cks
+}
+
+export default {jar, setupCookieJar, toPuppeteer, toString}
+export {jar as CookieJar, setupCookieJar}

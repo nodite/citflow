@@ -110,10 +110,7 @@ export default [
       'perfectionist/sort-interfaces': ['error', {type: 'natural'}],
       'perfectionist/sort-object-types': ['error', {type: 'natural'}],
       'perfectionist/sort-objects': ['error', {type: 'natural'}],
-      'perfectionist/sort-switch-case': [
-        'error',
-        {fallbackSort: {type: 'alphabetical'}, locales: 'zh-CN', type: 'natural'},
-      ],
+      'perfectionist/sort-switch-case': ['error', {type: 'natural'}],
       semi: ['error', 'never'],
       'sort-imports': 'off',
       'sort-keys': 'off',

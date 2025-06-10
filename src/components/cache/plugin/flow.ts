@@ -2,14 +2,16 @@ import os from 'node:os'
 
 import {KeyvSqlite} from '@keyv/sqlite'
 import {useAdapter} from '@nodite/cache-manager-adapter'
-import cacheManager, {CacheManagerOptions} from '@type-cacheable/core'
+import {default as _CacheManager, CacheManagerOptions} from '@type-cacheable/core'
 import {createCache} from 'cache-manager'
 import {Keyv} from 'keyv'
 import lodash from 'lodash'
 
 import memory from './memory.js'
 
-cacheManager.default.setOptions(<CacheManagerOptions>{
+const CacheManager = lodash.get(_CacheManager, 'default', _CacheManager)
+
+CacheManager.setOptions(<CacheManagerOptions>{
   debug: true,
   excludeContext: false,
   ttlSeconds: 0,
@@ -35,7 +37,7 @@ const initStore = async (scope: string): Promise<StoreReturn> => {
   const keyv = new Keyv({
     namespace: scope,
     store,
-    ttl: cacheManager.default.options.ttlSeconds,
+    ttl: CacheManager.options.ttlSeconds,
     useKeyPrefix: false,
   })
 
@@ -53,8 +55,8 @@ const switchClient = async (scope: string): Promise<StoreReturn> => {
 
   const adapter = useAdapter(cache as never, [keyv as never])
 
-  cacheManager.default.setClient(adapter)
-  cacheManager.default.setFallbackClient(adapter)
+  CacheManager.setClient(adapter)
+  CacheManager.setFallbackClient(adapter)
 
   return {cache, keyv, store}
 }
@@ -71,4 +73,4 @@ const close = async (): Promise<void> => {
   await Promise.all(disconnections)
 }
 
-export default {close, initStore, switchClient}
+export default {CacheManager, close, initStore, switchClient}

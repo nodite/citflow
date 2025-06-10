@@ -12,21 +12,28 @@
     "@nodite/cache-manager-adapter": "github:nodite/type-cacheable-cache-manager-adapter#main",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5",
     "@type-cacheable/core": "^14",
+    "await-until": "^2",
     "axios": "^1",
     "axios-cache-interceptor": "^1",
     "better-sqlite3": "^11",
+    "body-parser": "^2",
     "cache-manager": "^7",
     "cacheable": "^1",
     "dotenv": "^16",
+    "express": "^5",
     "fs-extra": "^11",
+    "get-port": "^7",
     "http-cookie-agent": "^7",
     "http-status": "^2",
     "keyv": "^5",
     "lodash": "^4",
     "pkg-dir": "^8",
-    "tough-cookie": "^5"
+    "puppeteer": "^24",
+    "puppeteer-extra": "^3",
+    "puppeteer-extra-plugin-stealth": "^2",
+    "tough-cookie": "^5",
+    "uuid": "^11"
   },
   "devDependencies": {
     "@commitlint/cli": "^19",
@@ -38,10 +45,12 @@
     "@oclif/test": "^4",
     "@types/better-sqlite3": "^7",
     "@types/chai": "^5",
+    "@types/express": "^5",
     "@types/fs-extra": "^11",
     "@types/lodash": "^4",
     "@types/mocha": "^10",
     "@types/node": "^22",
+    "@types/validator": "^13.15.1",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "@typescript-eslint/typescript-estree": "^8",
@@ -92,8 +101,7 @@
       ]
     },
     "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-plugins"
+      "@oclif/plugin-help"
     ],
     "topicSeparator": " ",
     "topics": {

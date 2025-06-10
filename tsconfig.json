@@ -1,20 +1,32 @@
 {
   "compilerOptions": {
+    "allowJs": false,
+    "alwaysStrict": true,
+    // "baseUrl": "./src",
     "declaration": true,
-    "module": "Node16",
+    // "declarationDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "lib": ["es5", "es6", "es7", "esnext", "dom"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "newLine": "LF",
+    "noFallthroughCasesInSwitch": true,
     "outDir": "dist",
-    "rootDir": "src",
+    "removeComments": true,
+    "resolveJsonModule": true,
     "strict": true,
-    "target": "es2022",
-    "moduleResolution": "node16",
+    "target": "esnext",
+    "pretty": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "rootDir": "src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "composite": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["./node_modules/**/*"],
-  "ts-node": {
-    "esm": true
-  }
+  "exclude": ["./node_modules/**/*"]
 }

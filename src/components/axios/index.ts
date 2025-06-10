@@ -21,3 +21,5 @@ const defaultAxios = createAxios()
 
 export default defaultAxios as AxiosCacheInstance
 export {createAxios}
+
+export {default as cookiePlugin} from './plugin/cookie.js'
