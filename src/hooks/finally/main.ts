@@ -1,8 +1,11 @@
+import {flow as flowCache} from '@components/cache/index'
 import {Hook} from '@oclif/core'
-
-import {flow as flowCache} from '../../components/cache/index.js'
+import puppeteer from '@utils/puppeteer'
 
 const hook: Hook.Finally = async function () {
+  // Close all open pages
+  await puppeteer.close()
+
   // Close flow cache store
   await flowCache.close()
 
