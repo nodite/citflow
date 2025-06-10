@@ -1,2 +1,2 @@
-export {default as flow} from './plugin/flow.js'
-export {default as memory} from './plugin/memory.js'
+export {default as flow} from '@components/cache/plugin/flow'
+export {default as memory} from '@components/cache/plugin/memory'

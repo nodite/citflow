@@ -17,7 +17,7 @@ import type {
   HeadersDefaults,
   ResponseType,
 } from "axios";
-import { createAxios } from "./index.js";
+import { createAxios } from "@components/axios";
 
 export type QueryParamsType = Record<string | number, any>;
 

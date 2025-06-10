@@ -2,14 +2,17 @@ import os from 'node:os'
 
 import {KeyvSqlite} from '@keyv/sqlite'
 import {useAdapter} from '@nodite/cache-manager-adapter'
-import cacheManager, {CacheManagerOptions} from '@type-cacheable/core'
+import {default as _CacheManager, CacheManagerOptions} from '@type-cacheable/core'
 import {createCache} from 'cache-manager'
+import fs from 'fs-extra'
 import {Keyv} from 'keyv'
 import lodash from 'lodash'
 
-import memory from './memory.js'
+import memory from './memory'
 
-cacheManager.default.setOptions(<CacheManagerOptions>{
+const CacheManager = lodash.get(_CacheManager, 'default', _CacheManager)
+
+CacheManager.setOptions(<CacheManagerOptions>{
   debug: true,
   excludeContext: false,
   ttlSeconds: 0,
@@ -26,16 +29,18 @@ const initStore = async (scope: string): Promise<StoreReturn> => {
     return existStore
   }
 
+  await fs.ensureDir(`${os.homedir()}/.citflow`)
+
   const store = new KeyvSqlite({
     iterationLimit: 5000,
-    table: 'citflow_' + scope.replaceAll('-', '_').trim(),
+    table: scope.replaceAll(/[^a-zA-Z0-9_]/g, '_').trim(),
     uri: `sqlite://${os.homedir()}/.citflow/cache.db`,
   })
 
   const keyv = new Keyv({
     namespace: scope,
     store,
-    ttl: cacheManager.default.options.ttlSeconds,
+    ttl: CacheManager.options.ttlSeconds,
     useKeyPrefix: false,
   })
 
@@ -48,15 +53,16 @@ const initStore = async (scope: string): Promise<StoreReturn> => {
   return storeReturn
 }
 
-const switchClient = async (scope: string): Promise<StoreReturn> => {
-  const {cache, keyv, store} = await initStore(scope)
+const getClient = async (scope: string): Promise<ReturnType<typeof useAdapter>> => {
+  const {cache, keyv} = await initStore(scope)
 
-  const adapter = useAdapter(cache as never, [keyv as never])
+  return useAdapter(cache as never, [keyv as never])
+}
 
-  cacheManager.default.setClient(adapter)
-  cacheManager.default.setFallbackClient(adapter)
-
-  return {cache, keyv, store}
+const switchClient = async (scope: string): Promise<void> => {
+  const client = await getClient(scope)
+  CacheManager.setClient(client)
+  CacheManager.setFallbackClient(client)
 }
 
 const close = async (): Promise<void> => {
@@ -71,4 +77,4 @@ const close = async (): Promise<void> => {
   await Promise.all(disconnections)
 }
 
-export default {close, initStore, switchClient}
+export default {CacheManager, close, getClient, initStore, switchClient} as const
