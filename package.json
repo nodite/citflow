@@ -49,7 +49,7 @@
     "@types/fs-extra": "^11",
     "@types/lodash": "^4",
     "@types/mocha": "^10",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/validator": "^13.15.1",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
