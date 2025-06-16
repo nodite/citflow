@@ -1,12 +1,9 @@
-import type {TokenResult} from '@@types/flow-apis/login-service/data-constracts'
 import type {AuthUser} from '@@types/login'
-import type {
-  CreateTokenBody,
-  GeneratePrincipalPolicyUrlDto,
-} from '@components/openapi/flow-apis/login-service/data-contracts'
+import type {TokenResult} from '@@types/login-service/data-constracts'
+import type {CreateTokenBody, GeneratePrincipalPolicyUrlDto} from '@components/openapi/login-service/data-contracts'
 
 import {CacheClient} from '@components/cache'
-import LoginApi from '@components/openapi/flow-apis/login-service/LoginService'
+import LoginApi from '@components/openapi/login-service/LoginService'
 import {FLOW_BASE_URL} from '@env'
 import BaseService from '@services/base'
 import UserService from '@services/flow/user'

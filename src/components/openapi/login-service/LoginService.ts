@@ -11,11 +11,6 @@
  */
 
 import {
-  ContentType,
-  HttpClient,
-  RequestParams,
-} from "./../../../axios/http-client.js";
-import {
   AcceptTermBody,
   AddTenantToUsersDto,
   B2CUserDto,
@@ -36,7 +31,8 @@ import {
   ValidateTokenResult,
   VerifySignatureBody,
   VerifySignatureResult,
-} from "./data-contracts.js";
+} from "./data-contracts";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export default class LoginService<
   SecurityDataType = unknown,

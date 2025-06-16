@@ -1,4 +1,4 @@
-import type {ValidateTokenResult} from '@components/openapi/flow-apis/login-service/data-contracts'
+import type {ValidateTokenResult} from '@components/openapi/login-service/data-contracts'
 
 export interface CreateTokenResult {
   isTermAccepted: boolean

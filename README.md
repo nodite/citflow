@@ -31,6 +31,9 @@ USAGE
 <!-- commands -->
 * [`citflow help [COMMAND]`](#citflow-help-command)
 * [`citflow login`](#citflow-login)
+* [`citflow openapi`](#citflow-openapi)
+* [`citflow openapi codegen`](#citflow-openapi-codegen)
+* [`citflow user set`](#citflow-user-set)
 
 ## `citflow help [COMMAND]`
 
@@ -58,11 +61,14 @@ Login to CI&T Flow
 
 ```
 USAGE
-  $ citflow login [--channel portal]
+  $ citflow login --service global-settings|user-api|login-service|knowledge-api|auth-engine-api|all
+    [--channel portal]
 
 FLAGS
   --channel=<option>  [default: portal] The channel through which the request is made, affecting the resulting URL.
                       <options: portal>
+  --service=<option>  (required) The service to preview the OpenAPI schema for.
+                      <options: global-settings|user-api|login-service|knowledge-api|auth-engine-api|all>
 
 DESCRIPTION
   Login to CI&T Flow
@@ -79,4 +85,76 @@ EXAMPLES
 ```
 
 _See code: [src/commands/login.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/login.ts)_
+
+## `citflow openapi`
+
+OpenAPI schema preview
+
+```
+USAGE
+  $ citflow openapi --service global-settings|user-api|login-service|knowledge-api|auth-engine-api|all
+
+FLAGS
+  --service=<option>  (required) The service to preview the OpenAPI schema for.
+                      <options: global-settings|user-api|login-service|knowledge-api|auth-engine-api|all>
+
+DESCRIPTION
+  OpenAPI schema preview
+
+EXAMPLES
+  $ citflow openapi index --service login-service
+  Preview the OpenAPI schema for the login service
+```
+
+_See code: [src/commands/openapi/index.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/openapi/index.ts)_
+
+## `citflow openapi codegen`
+
+OpenAPI code generation
+
+```
+USAGE
+  $ citflow openapi codegen --service global-settings|user-api|login-service|knowledge-api|auth-engine-api|all
+
+FLAGS
+  --service=<option>  (required) The service to preview the OpenAPI schema for.
+                      <options: global-settings|user-api|login-service|knowledge-api|auth-engine-api|all>
+
+DESCRIPTION
+  OpenAPI code generation
+
+EXAMPLES
+  $ citflow openapi:codegen --service global-settings
+  Generating code for service: global-settings
+  Code generation for service global-settings completed successfully.
+  ----------------------------------------
+```
+
+_See code: [src/commands/openapi/codegen.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/openapi/codegen.ts)_
+
+## `citflow user set`
+
+Set a default account from the list of authenticated accounts.
+
+```
+USAGE
+  $ citflow user set [--email <value>]
+
+FLAGS
+  --email=<value>  The email of the account to set as default.
+
+DESCRIPTION
+  Set a default account from the list of authenticated accounts.
+
+EXAMPLES
+  $ citflow user set
+  Only one authenticated account found. Setting email:xxx@ciandt.com as default.
+  Default account set to email:xxx@ciandt.com.
+
+  $ citflow user set --email xxx@ciandt.com
+  Setting email:xxx@ciandt.com as default.
+  Default account set to email:xxx@ciandt.com.
+```
+
+_See code: [src/commands/user/set.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/user/set.ts)_
 <!-- commandsstop -->
