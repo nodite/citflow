@@ -35,10 +35,12 @@
     "keyv": "^5",
     "lodash": "^4",
     "moment": "^2",
+    "object-treeify": "^5",
     "pkg-dir": "^8",
     "puppeteer": "^24",
     "puppeteer-extra": "^3",
     "puppeteer-extra-plugin-stealth": "^2",
+    "table": "^6",
     "tough-cookie": "^5",
     "uuid": "^11",
     "validator": "^13"

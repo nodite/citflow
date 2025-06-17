@@ -18,3 +18,5 @@ export interface GeneratePolicyUrlForTenantResult {
 }
 
 export type TokenResult = CreateTokenResult & ValidateTokenResult
+
+export type UserTenantsResult = Record<string, {isPrincipal: boolean; updatedAt: string}>
