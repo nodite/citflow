@@ -16,7 +16,7 @@
  */
 export enum SrcAdaptersEntrypointsModelListSingleSourceWithConnectionResponseResultElementTypeResultElementType {
   CONFLUENCE = "CONFLUENCE",
-  CONFLUENCEV1 = "CONFLUENCE_V1",
+  CONFLUENCE_V1 = "CONFLUENCE_V1",
   AZURE_BLOB_STORAGE = "AZURE_BLOB_STORAGE",
   GOOGLE_DRIVE = "GOOGLE_DRIVE",
   JIRA = "JIRA",
@@ -28,7 +28,7 @@ export enum SrcAdaptersEntrypointsModelListSingleSourceWithConnectionResponseRes
  */
 export enum SrcAdaptersEntrypointsModelFlowTenantConnectionResponseResultElementTypeResultElementType {
   CONFLUENCE = "CONFLUENCE",
-  CONFLUENCEV1 = "CONFLUENCE_V1",
+  CONFLUENCE_V1 = "CONFLUENCE_V1",
   AZURE_BLOB_STORAGE = "AZURE_BLOB_STORAGE",
   GOOGLE_DRIVE = "GOOGLE_DRIVE",
   JIRA = "JIRA",
@@ -49,7 +49,7 @@ export enum SrcAdaptersEntrypointsModelFlowTenantConnectionResponseResultElement
 export enum SourceType {
   REPOSITORY = "REPOSITORY",
   CONFLUENCE = "CONFLUENCE",
-  CONFLUENCEV1 = "CONFLUENCE_V1",
+  CONFLUENCE_V1 = "CONFLUENCE_V1",
   AZURE_BLOB_STORAGE = "AZURE_BLOB_STORAGE",
   GOOGLE_DRIVE = "GOOGLE_DRIVE",
   JIRA = "JIRA",
@@ -135,7 +135,7 @@ export enum ContentType {
  */
 export enum ConnectionType {
   GOOGLE_DRIVE = "GOOGLE_DRIVE",
-  CONFLUENCEV1 = "CONFLUENCE_V1",
+  CONFLUENCE_V1 = "CONFLUENCE_V1",
   CONFLUENCE = "CONFLUENCE",
   AZURE_BLOB_STORAGE = "AZURE_BLOB_STORAGE",
   JIRA = "JIRA",
