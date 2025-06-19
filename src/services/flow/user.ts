@@ -1,10 +1,9 @@
 import type {AuthType, AuthUser} from '@@types/login'
-import type {AppName, CreateApiKeyResult} from '@@types/user-api/data-constracts'
+import type {UserTenantsResult} from '@@types/login-service/data-constracts'
+import type {ApiKeyDto, AppName, CreateApiKeyResult} from '@@types/user-api/data-constracts'
 
-import {UserTenantsResult} from '@@types/login-service/data-constracts'
 import {CacheClient} from '@components/cache'
 import LoginApi from '@components/openapi/login-service/LoginService'
-import {ApiKeyDto} from '@components/openapi/user-api/data-contracts'
 import UserApi from '@components/openapi/user-api/UserApi'
 import {FLOW_BASE_URL} from '@env'
 import BaseService from '@services/base'
@@ -37,7 +36,7 @@ export default class UserService extends BaseService {
     }
   }
 
-  public async createApiKey(name: string, apps: AppName[]): Promise<string> {
+  public async createApiKey(name: string, apps: AppName[]): Promise<CreateApiKeyResult> {
     const resp = await this.userApi.createApiKey({
       appsToAccess: apps,
       name,
@@ -48,7 +47,19 @@ export default class UserService extends BaseService {
 
     await this.setApiKey(apiKey.clientId, apiKey.clientSecret)
 
-    return apiKey.clientSecret
+    return apiKey
+  }
+
+  public async deleteApiKey(apiKey: ApiKeyDto): Promise<void> {
+    const user = await this.getDefaultUser()
+    const tenant = await this.getPrincipalTenant()
+    const cacheKey = UserService.CACHE_KEY_APIKEY(tenant, apiKey.clientId)([user])
+
+    if (!apiKey.dangling) {
+      await this.userApi.deleteApiKey(apiKey.clientId)
+    }
+
+    await CacheClient.USER.del(cacheKey)
   }
 
   public async getClientSecret(clientId: string): Promise<string | undefined> {
@@ -95,14 +106,25 @@ export default class UserService extends BaseService {
   }
 
   public async listApiKeys(search?: string, showInactive?: boolean): Promise<ApiKeyDto[]> {
-    const getApiKeys = await this.userApi.getApiKeys({
-      active: showInactive ? undefined : 'true',
-      limit: 100,
-      page: 1,
-      search,
-    })
+    const apiKeys: ApiKeyDto[] = []
 
-    const apiKeys = getApiKeys.data.items ?? []
+    // Pagination
+    let page = 1
+
+    do {
+      const getApiKeys = await this.userApi.getApiKeys({
+        active: showInactive ? undefined : 'true',
+        limit: 10,
+        page,
+        search,
+      })
+
+      apiKeys.push(...(getApiKeys.data.items || []))
+
+      if (apiKeys.length >= getApiKeys.data.meta.totalItems) break
+
+      page++
+    } while (true)
 
     // fix dangling API keys that are not in the cache.
     const user = await this.getDefaultUser()
@@ -121,6 +143,7 @@ export default class UserService extends BaseService {
         appsToAccess: [],
         clientId,
         createdAt: '0000-00-00T00:00:00Z',
+        dangling: true,
         expiresIn: '0000-00-00T00:00:00Z',
         id: 'unknown',
         name: 'unknown',
@@ -130,7 +153,9 @@ export default class UserService extends BaseService {
       })
     }
 
-    return apiKeys
+    return lodash.filter(apiKeys, (key) =>
+      search ? lodash.includes(key.name, search) || lodash.includes(key.clientId, search) : true,
+    )
   }
 
   public async setApiKey(clientId: string, clientSecret: string): Promise<void> {

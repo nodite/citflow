@@ -15,12 +15,7 @@ Select an API key to retrieve: my-api-key (xxx)
 ✔ Client ID: xxx
 ✔ Client Secret: xxx
 `,
-    `$ citflow user apikey get --name my-api-key
-✔ Name: my-api-key
-✔ Client ID: xxx
-✔ Client Secret: xxx
-`,
-    `$ citflow user apikey get --client-id xxx
+    `$ citflow user apikey get --search my-api-key
 ✔ Name: my-api-key
 ✔ Client ID: xxx
 ✔ Client Secret: xxx
@@ -28,13 +23,9 @@ Select an API key to retrieve: my-api-key (xxx)
   ]
 
   static flags = {
-    'client-id': Flags.string({
-      description: 'Client ID of the API key to retrieve.',
-      relationships: [{flags: ['name'], type: 'none'}],
-    }),
-    name: Flags.string({
-      description: 'Name of the API key to retrieve.',
-      relationships: [{flags: ['client-id'], type: 'none'}],
+    search: Flags.string({
+      char: 's',
+      description: 'Search term to filter API keys by name or client ID.',
     }),
   }
 
@@ -43,32 +34,40 @@ Select an API key to retrieve: my-api-key (xxx)
   async run(): Promise<void> {
     const {flags} = await this.parse(Get)
 
-    const apiKeys = await this.userService.listApiKeys(flags.name)
+    const apiKeys = await this.userService.listApiKeys(flags.search)
+
+    if (apiKeys.length === 0) {
+      throw this.error('No API keys found matching the criteria.', {exit: 1})
+    }
+
+    if (apiKeys.length === 1) {
+      flags['client-id'] = apiKeys[0].clientId
+    }
 
     if (!flags['client-id']) {
-      if (apiKeys.length === 0) {
-        throw this.error('No API keys found matching the criteria.', {exit: 1})
-      }
-
       flags['client-id'] = await select({
         choices: apiKeys.map((key) => ({name: `${key.name} (${key.clientId})`, value: key.clientId})),
         message: 'Select an API key to retrieve:',
       })
     }
 
-    if (!flags.name) {
-      flags.name = lodash.find(apiKeys, {clientId: flags['client-id']})?.name
+    const apiKey = lodash.find(apiKeys, {clientId: flags['client-id']})
+
+    if (!apiKey) {
+      throw this.error('No API key found matching the criteria.', {exit: 1})
     }
 
-    this.log(`${colors.green('✔')} Name: ${colors.cyan(flags.name || 'N/A')}`)
-    this.log(`${colors.green('✔')} Client ID: ${colors.cyan(flags['client-id'])}`)
+    flags.name = apiKey.name
+
+    this.log(`${colors.green('✔')} ${colors.bold('Name')}: ${colors.cyan(flags.name || 'N/A')}`)
+    this.log(`${colors.green('✔')} ${colors.bold('Client ID')}: ${colors.cyan(flags['client-id'])}`)
 
     const clientSecret = await this.userService.getClientSecret(flags['client-id'])
 
     if (!clientSecret) {
-      throw this.error(`No secret found, or it was not created by citflow.`, {exit: 1})
+      throw this.error(`No secret found at local machine, or it was not created by citflow.`, {exit: 1})
     }
 
-    this.log(`${colors.green('✔')} Client Secret: ${colors.cyan(clientSecret)}`)
+    this.log(`${colors.green('✔')} ${colors.bold('Client Secret')}: ${colors.cyan(clientSecret)}`)
   }
 }

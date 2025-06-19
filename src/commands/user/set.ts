@@ -4,18 +4,18 @@ import BaseCommand from '@abstracts/base'
 import {select} from '@inquirer/prompts'
 import {Flags} from '@oclif/core'
 import UserService from '@services/flow/user'
-import color from 'ansi-colors'
+import colors from 'ansi-colors'
 
 export default class Set extends BaseCommand {
   static description = 'Set a default account from the list of authenticated accounts.'
 
   static examples = [
     `$ citflow user set
-Only one authenticated account found. Setting ${color.cyan('email:xxx@ciandt.com')} as default.
-Default account set to ${color.cyan('email:xxx@ciandt.com')}.`,
+Only one authenticated account found. Setting email:xxx@ciandt.com as default.
+Default account set to email:xxx@ciandt.com.`,
     `$ citflow user set --email xxx@ciandt.com
-Setting ${color.cyan('email:xxx@ciandt.com')} as default.
-Default account set to ${color.cyan('email:xxx@ciandt.com')}.`,
+Setting email:xxx@ciandt.com as default.
+Default account set to email:xxx@ciandt.com.`,
   ]
 
   static flags = {
@@ -41,10 +41,10 @@ Default account set to ${color.cyan('email:xxx@ciandt.com')}.`,
 
     if (flags.email) {
       user = {auth: 'email', user: flags.email}
-      this.log(`Setting ${color.cyan('email:' + flags.email)} as default.`)
+      this.log(`Setting ${colors.cyan('email:' + flags.email)} as default.`)
     } else if (users.length === 1) {
       user = users[0]
-      this.log(`Only one authenticated account found. Setting ${color.cyan(user.auth + ':' + user.user)} as default.`)
+      this.warn(`Only one authenticated account found. Setting ${colors.cyan(user.auth + ':' + user.user)} as default.`)
     } else {
       user = await select({
         choices: users.map((user) => ({name: `${user.auth}:${user.user}`, value: user})),
@@ -54,6 +54,6 @@ Default account set to ${color.cyan('email:xxx@ciandt.com')}.`,
 
     await this.userService.setDefaultUser(user)
 
-    this.log(`Default account set to ${color.cyan(user.auth + ':' + user.user)}.`)
+    this.log(`Default account set to ${colors.cyan(user.auth + ':' + user.user)}.`)
   }
 }

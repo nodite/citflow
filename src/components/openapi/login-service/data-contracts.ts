@@ -14,7 +14,7 @@ export interface UpsertUserTenantsDto {
   /** @example "example@email.com" */
   email: string;
   /** @example {"tenantA":{"isPrincipal":true},"tenantB":{"isPrincipal":false}} */
-  tenants: Record<string, any>;
+  tenants: object;
   /** @example "uuid" */
   flowUserId: string;
 }
@@ -44,7 +44,7 @@ export interface UserTenantsDataDto {
   /** @example "c3d74b89-89cd-433d-9dd4-9bde69cd3813" */
   flowUserId: string;
   /** @example {"tenantA":{"isPrincipal":true},"tenantB":{"isPrincipal":false}} */
-  tenants: Record<string, any>;
+  tenants: object;
 }
 
 export interface UpsertUserSuperAdminDto {
@@ -99,7 +99,7 @@ export interface ConsumeSingleUseCodeResult {
    */
   code: string;
   /** The payload or content associated with the consumed code, which may vary depending on the use case or application logic. */
-  content: Record<string, any>;
+  content: object;
 }
 
 export interface VerifySignatureBody {

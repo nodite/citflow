@@ -187,7 +187,7 @@ export interface TermVersionsDto {
   updatedAt: string;
 }
 
-export type CreateFlowMemoryDto = Record<string, any>;
+export type CreateFlowMemoryDto = object;
 
 export interface FlowMemoryDto {
   subDomain: string;

@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------
  */
 
-export type CreateTenantDto = Record<string, any>;
+export type CreateTenantDto = object;
 
-export type UpdateTenantDto = Record<string, any>;
+export type UpdateTenantDto = object;
 
 export interface PaginationMeta {
   totalItems: number;
@@ -26,38 +26,38 @@ export interface PaginatedResponseDto {
   meta: PaginationMeta;
 }
 
-export type TenantDto = Record<string, any>;
+export type TenantDto = object;
 
-export type AssignAgentToTenantDto = Record<string, any>;
+export type AssignAgentToTenantDto = object;
 
-export type UnassignAgentFromTenantDto = Record<string, any>;
+export type UnassignAgentFromTenantDto = object;
 
-export type CreateAgentDto = Record<string, any>;
+export type CreateAgentDto = object;
 
-export type UpdateAgentDto = Record<string, any>;
+export type UpdateAgentDto = object;
 
 export interface FindValidAgentsDto {
   agentIds: string[];
 }
 
-export type AgentDto = Record<string, any>;
+export type AgentDto = object;
 
-export type AssignRoleToAgentDto = Record<string, any>;
+export type AssignRoleToAgentDto = object;
 
-export type UnassignRoleFromAgentDto = Record<string, any>;
+export type UnassignRoleFromAgentDto = object;
 
-export type CreateRoleDto = Record<string, any>;
+export type CreateRoleDto = object;
 
-export type UpdateRoleDto = Record<string, any>;
+export type UpdateRoleDto = object;
 
 export interface FindValidRolesDto {
   roleIds: string[];
 }
 
-export type RoleDto = Record<string, any>;
+export type RoleDto = object;
 
-export type CreateTenantMetadataDto = Record<string, any>;
+export type CreateTenantMetadataDto = object;
 
-export type TenantMetadataDto = Record<string, any>;
+export type TenantMetadataDto = object;
 
-export type UpdateTenantMetadataDto = Record<string, any>;
+export type UpdateTenantMetadataDto = object;

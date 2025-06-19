@@ -43,9 +43,9 @@ const createAxios = (...axiosConfig: Parameters<typeof _axios.create>) => {
   return axios
 }
 
-const defaultAxios = createAxios()
+const axios = createAxios()
 
-export default defaultAxios as AxiosCacheInstance
+export default axios as AxiosCacheInstance
 export {createAxios}
 
 export {default as cookiePlugin} from './plugin/cookie'

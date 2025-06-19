@@ -15,6 +15,8 @@ export default class Set extends BaseCommand {
 API key set successfully.
 To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
 `,
+    '$ citflow user apikey set --client-id xxx',
+    '$ citflow user apikey set --client-id xxx --client-secret yyy',
   ]
 
   static flags = {
@@ -23,6 +25,11 @@ To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
     }),
     'client-secret': Flags.string({
       description: 'Client Secret of the API key to set.',
+    }),
+    force: Flags.boolean({
+      char: 'f',
+      default: false,
+      description: 'Force set without confirmation if no related API key found online.',
     }),
   }
 
@@ -43,26 +50,24 @@ To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
     if (flags['client-secret']) {
       this.log(`${colors.green('✔')} ${colors.bold('Client Secret')}: ${colors.cyan('******')}`)
     } else {
-      flags['client-secret'] = await password({
-        mask: true,
-        message: 'Client Secret:',
-      })
+      flags['client-secret'] = await password({mask: true, message: 'Client Secret:'})
     }
 
     const exists = await this.userService.listApiKeys(flags['client-id'])
 
     if (lodash.isEmpty(exists)) {
-      this.log(colors.red(`No related API key found online for Client ID: ${flags['client-id']}`))
+      this.error(`No related API key found online for Client ID: ${flags['client-id']}`, {exit: false})
 
-      const force = await confirm({
+      flags.force = await confirm({
         default: false,
         message: 'Do you want to force set this API key?',
       })
+    } else {
+      flags.force = true
+    }
 
-      if (!force) {
-        this.log(colors.yellow('Operation cancelled. No API key was set.'))
-        return
-      }
+    if (!flags.force) {
+      throw this.error('Operation cancelled.', {exit: 1})
     }
 
     await this.userService.setApiKey(flags['client-id'], flags['client-secret'])

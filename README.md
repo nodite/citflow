@@ -20,7 +20,7 @@ $ npm install -g citflow
 $ citflow COMMAND
 running command...
 $ citflow (--version)
-citflow/0.0.0 darwin-arm64 node-v20.18.3
+citflow/0.0.0 darwin-arm64 node-v20.19.2
 $ citflow --help [COMMAND]
 USAGE
   $ citflow COMMAND
@@ -29,11 +29,48 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`citflow autocomplete [SHELL]`](#citflow-autocomplete-shell)
 * [`citflow help [COMMAND]`](#citflow-help-command)
 * [`citflow login`](#citflow-login)
 * [`citflow openapi`](#citflow-openapi)
 * [`citflow openapi codegen`](#citflow-openapi-codegen)
+* [`citflow user apikey del`](#citflow-user-apikey-del)
+* [`citflow user apikey gen`](#citflow-user-apikey-gen)
+* [`citflow user apikey get`](#citflow-user-apikey-get)
+* [`citflow user apikey list`](#citflow-user-apikey-list)
+* [`citflow user apikey set`](#citflow-user-apikey-set)
 * [`citflow user set`](#citflow-user-set)
+
+## `citflow autocomplete [SHELL]`
+
+Display autocomplete installation instructions.
+
+```
+USAGE
+  $ citflow autocomplete [SHELL] [-r]
+
+ARGUMENTS
+  SHELL  (zsh|bash|powershell) Shell type
+
+FLAGS
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+DESCRIPTION
+  Display autocomplete installation instructions.
+
+EXAMPLES
+  $ citflow autocomplete
+
+  $ citflow autocomplete bash
+
+  $ citflow autocomplete zsh
+
+  $ citflow autocomplete powershell
+
+  $ citflow autocomplete --refresh-cache
+```
+
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v3.2.30/src/commands/autocomplete/index.ts)_
 
 ## `citflow help [COMMAND]`
 
@@ -61,20 +98,17 @@ Login to CI&T Flow
 
 ```
 USAGE
-  $ citflow login --service global-settings|user-api|login-service|knowledge-api|auth-engine-api|all
-    [--channel portal]
+  $ citflow login [--channel portal]
 
 FLAGS
   --channel=<option>  [default: portal] The channel through which the request is made, affecting the resulting URL.
                       <options: portal>
-  --service=<option>  (required) The service to preview the OpenAPI schema for.
-                      <options: global-settings|user-api|login-service|knowledge-api|auth-engine-api|all>
 
 DESCRIPTION
   Login to CI&T Flow
 
 EXAMPLES
-  $ citflow login --channel=portal
+  $ citflow login
   Logging in to CI&T Flow...
   A browser window has been opened at https://flow.ciandt.com/login. Please continue the login in the web browser.
   Browser window has been closed, processing the login result...
@@ -82,6 +116,8 @@ EXAMPLES
   ✔ Principal Tenant: CI&T Playground
   ✔ Active Tenant: CI&T Playground
   You have successfully logged in to CI&T Flow!
+
+  $ citflow login --channel portal
 ```
 
 _See code: [src/commands/login.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/login.ts)_
@@ -102,7 +138,7 @@ DESCRIPTION
   OpenAPI schema preview
 
 EXAMPLES
-  $ citflow openapi index --service login-service
+  $ citflow openapi --service login-service
   Preview the OpenAPI schema for the login service
 ```
 
@@ -126,11 +162,163 @@ DESCRIPTION
 EXAMPLES
   $ citflow openapi:codegen --service global-settings
   Generating code for service: global-settings
+  xxx
   Code generation for service global-settings completed successfully.
   ----------------------------------------
 ```
 
 _See code: [src/commands/openapi/codegen.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/openapi/codegen.ts)_
+
+## `citflow user apikey del`
+
+Delete an API key for the authenticated user.
+
+```
+USAGE
+  $ citflow user apikey del [-f] [-s <value>]
+
+FLAGS
+  -f, --force           Force deletion without confirmation.
+  -s, --search=<value>  Search term to filter API keys by name or client ID.
+
+DESCRIPTION
+  Delete an API key for the authenticated user.
+
+EXAMPLES
+  $ citflow user apikey del
+  Select an API key to delete: my-api-key (xxx)
+  Deleting API key my-api-key (xxx)...
+  ? Are you sure you want to delete this API key? Yes
+  ✔ API key deleted.
+
+  $ citflow user apikey del --search my-api-key
+  Deleting API key my-api-key (xxx)...
+  ? Are you sure you want to delete this API key? Yes
+  ✔ API key deleted.
+```
+
+_See code: [src/commands/user/apikey/del.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/user/apikey/del.ts)_
+
+## `citflow user apikey gen`
+
+Create a new API key for the authenticated user.
+
+```
+USAGE
+  $ citflow user apikey gen [--apps llm-api|metrics-api|agent-runner-api...] [-n <value>]
+
+FLAGS
+  -n, --name=<value>      Name of the API key.
+      --apps=<option>...  [default: ] Comma-separated list of app names to access with this API key.
+                          <options: llm-api|metrics-api|agent-runner-api>
+
+DESCRIPTION
+  Create a new API key for the authenticated user.
+
+EXAMPLES
+  $ citflow user apikey gen
+  ✔ Enter a name for the API key: citflow-ec10ca46
+  ✔ Select apps to access with this API key: llm-api, metrics-api
+  Creating API key ...
+  ✔ API key created successfully.
+  ✔ Name: citflow-ec10ca46
+  ✔ Apps: llm-api, metrics-api
+  ✔ Client ID: xxx
+  ✔ Client Secret: yyy
+  ✔ Tenant Name: cit
+  You can safely leave this window now, as the client secret cached on disk automatically.
+  Or you can run `citflow user apikey get` to retrieve it later.
+
+  $ citflow user apikey gen --name my-api-key --apps llm-api,metrics-api
+```
+
+_See code: [src/commands/user/apikey/gen.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/user/apikey/gen.ts)_
+
+## `citflow user apikey get`
+
+Get Client Secret for the authenticated user.
+
+```
+USAGE
+  $ citflow user apikey get [-s <value>]
+
+FLAGS
+  -s, --search=<value>  Search term to filter API keys by name or client ID.
+
+DESCRIPTION
+  Get Client Secret for the authenticated user.
+
+EXAMPLES
+  $ citflow user apikey get
+  Select an API key to retrieve: my-api-key (xxx)
+  ✔ Name: my-api-key
+  ✔ Client ID: xxx
+  ✔ Client Secret: xxx
+
+  $ citflow user apikey get --search my-api-key
+  ✔ Name: my-api-key
+  ✔ Client ID: xxx
+  ✔ Client Secret: xxx
+```
+
+_See code: [src/commands/user/apikey/get.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/user/apikey/get.ts)_
+
+## `citflow user apikey list`
+
+List all API keys for the authenticated user.
+
+```
+USAGE
+  $ citflow user apikey list [--show-inactive] [--show-secrets]
+
+FLAGS
+  --show-inactive  Show inactive API keys in the output.
+  --show-secrets   Show client secrets in the output.
+
+DESCRIPTION
+  List all API keys for the authenticated user.
+
+EXAMPLES
+  $ citflow user apikey list
+
+  $ citflow user apikey list --show-inactive
+
+  $ citflow user apikey list --show-secrets
+
+  $ citflow user apikey list --inactive --show
+```
+
+_See code: [src/commands/user/apikey/list.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/user/apikey/list.ts)_
+
+## `citflow user apikey set`
+
+Set an API key for the authenticated user.
+
+```
+USAGE
+  $ citflow user apikey set [--client-id <value>] [--client-secret <value>] [-f]
+
+FLAGS
+  -f, --force                  Force set without confirmation if no related API key found online.
+      --client-id=<value>      Client ID of the API key to set.
+      --client-secret=<value>  Client Secret of the API key to set.
+
+DESCRIPTION
+  Set an API key for the authenticated user.
+
+EXAMPLES
+  $ citflow user apikey set
+  ✔ Client ID: xxx
+  ✔ Client Secret: ***
+  API key set successfully.
+  To retrieve the API key, run: `citflow user apikey get --client-id xxx`
+
+  $ citflow user apikey set --client-id xxx
+
+  $ citflow user apikey set --client-id xxx --client-secret yyy
+```
+
+_See code: [src/commands/user/apikey/set.ts](https://github.com/nodite/citflow/blob/v0.0.0/src/commands/user/apikey/set.ts)_
 
 ## `citflow user set`
 

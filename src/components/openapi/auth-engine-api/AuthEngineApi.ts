@@ -194,21 +194,57 @@ export default class AuthEngineApi<
         /** @example "ok" */
         status?: string;
         /** @example {"database":{"status":"up"}} */
-        info?: Record<string, any> | null;
+        info?: Record<
+          string,
+          {
+            status: string;
+            [key: string]: any;
+          }
+        >;
         /** @example {} */
-        error?: Record<string, any> | null;
+        error?: Record<
+          string,
+          {
+            status: string;
+            [key: string]: any;
+          }
+        >;
         /** @example {"database":{"status":"up"}} */
-        details?: Record<string, any>;
+        details?: Record<
+          string,
+          {
+            status: string;
+            [key: string]: any;
+          }
+        >;
       },
       {
         /** @example "error" */
         status?: string;
         /** @example {"database":{"status":"up"}} */
-        info?: Record<string, any> | null;
+        info?: Record<
+          string,
+          {
+            status: string;
+            [key: string]: any;
+          }
+        >;
         /** @example {"redis":{"status":"down","message":"Could not connect"}} */
-        error?: Record<string, any> | null;
+        error?: Record<
+          string,
+          {
+            status: string;
+            [key: string]: any;
+          }
+        >;
         /** @example {"database":{"status":"up"},"redis":{"status":"down","message":"Could not connect"}} */
-        details?: Record<string, any>;
+        details?: Record<
+          string,
+          {
+            status: string;
+            [key: string]: any;
+          }
+        >;
       }
     >({
       path: `/auth-engine-api/v1/healthz`,

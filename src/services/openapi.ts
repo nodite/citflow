@@ -33,14 +33,6 @@ export default class OpenAPIService extends BaseService {
           output: path.join(OPENAPI_DIR, service),
         } as GenerateApiConfiguration,
         {
-          codeGenConstructs(struct: any) {
-            return {
-              Keyword: {
-                ...struct.Keyword,
-                Object: 'Record<string, any>',
-              },
-            }
-          },
           modular: true,
           templates: path.join(OPENAPI_DIR, 'templates'),
         } as any,

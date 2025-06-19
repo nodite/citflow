@@ -36,7 +36,7 @@ export interface GetTokenByRefreshDto {
 }
 
 export interface UpsertInfoCodeDto {
-  content: Record<string, any>;
+  content: object;
   code?: string;
   /** @example "2024-02-09T13:45:50.852Z" */
   expiresIn?: string;
@@ -51,7 +51,7 @@ export interface InfoCodeDto {
 }
 
 export interface InfoCodeContentDto {
-  content: Record<string, any>;
+  content: object;
 }
 
 export interface AppUserRoleDto {
