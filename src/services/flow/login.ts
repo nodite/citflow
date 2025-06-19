@@ -143,9 +143,15 @@ export default class LoginService extends BaseService {
     const activeTenant = lodash.find(createTokenResult?.tenants, {isActive: true})
 
     this.logger.info('')
-    this.logger.info(`${colors.green('✔')} Email: ${colors.cyan(generatePrincipalPolicyUrlDto.email)}`)
-    this.logger.info(`${colors.green('✔')} Principal Tenant: ${colors.cyan(principalTenant?.displayName || 'N/A')}`)
-    this.logger.info(`${colors.green('✔')} Active Tenant: ${colors.cyan(activeTenant?.displayName || 'N/A')}`)
+    this.logger.info(
+      `${colors.green('✔')} ${colors.bold('Email')}: ${colors.cyan(generatePrincipalPolicyUrlDto.email)}`,
+    )
+    this.logger.info(
+      `${colors.green('✔')} ${colors.bold('Principal Tenant')}: ${colors.cyan(principalTenant?.displayName || 'N/A')}`,
+    )
+    this.logger.info(
+      `${colors.green('✔')} ${colors.bold('Active Tenant')}: ${colors.cyan(activeTenant?.displayName || 'N/A')}`,
+    )
     this.logger.info('')
 
     // Set the default user

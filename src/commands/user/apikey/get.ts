@@ -60,15 +60,15 @@ Select an API key to retrieve: my-api-key (xxx)
       flags.name = lodash.find(apiKeys, {clientId: flags['client-id']})?.name
     }
 
-    this.log(`${colors.green('✔')} Name: ${colors.cyan(flags.name || 'N/A')}`)
-    this.log(`${colors.green('✔')} Client ID: ${colors.cyan(flags['client-id'])}`)
+    this.log(`${colors.green('✔')} ${colors.bold('Name')}: ${colors.cyan(flags.name || 'N/A')}`)
+    this.log(`${colors.green('✔')} ${colors.bold('Client ID')}: ${colors.cyan(flags['client-id'])}`)
 
     const clientSecret = await this.userService.getClientSecret(flags['client-id'])
 
     if (!clientSecret) {
-      throw this.error(`No secret found, or it was not created by citflow.`, {exit: 1})
+      throw this.error(`No secret found at local machine, or it was not created by citflow.`, {exit: 1})
     }
 
-    this.log(`${colors.green('✔')} Client Secret: ${colors.cyan(clientSecret)}`)
+    this.log(`${colors.green('✔')} ${colors.bold('Client Secret')}: ${colors.cyan(clientSecret)}`)
   }
 }

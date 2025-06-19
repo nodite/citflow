@@ -9,8 +9,10 @@ export default class List extends BaseCommand {
   static description = 'List all API keys for the authenticated user.'
 
   static examples = [
-    `$ citflow user apikey list
-`,
+    '$ citflow user apikey list',
+    '$ citflow user apikey list --show-inactive',
+    '$ citflow user apikey list --show-secrets',
+    '$ citflow user apikey list --inactive --show',
   ]
 
   static flags = {
@@ -34,8 +36,7 @@ export default class List extends BaseCommand {
     const apiKeys = await this.userService.listApiKeys(undefined, flags['show-inactive'])
 
     if (lodash.isEmpty(apiKeys)) {
-      this.log(`No API keys found for the authenticated user.`)
-      return
+      throw this.error(`No API keys found for the authenticated user.`, {exit: 1})
     }
 
     const header = ['Name', 'Apps', 'Client ID', 'Client Secret', 'Created On', 'Expiration Date', 'Active']

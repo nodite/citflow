@@ -15,6 +15,8 @@ export default class Set extends BaseCommand {
 API key set successfully.
 To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
 `,
+    '$ citflow user apikey set --client-id xxx',
+    '$ citflow user apikey set --client-id xxx --client-secret yyy',
   ]
 
   static flags = {
@@ -52,7 +54,7 @@ To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
     const exists = await this.userService.listApiKeys(flags['client-id'])
 
     if (lodash.isEmpty(exists)) {
-      this.log(colors.red(`No related API key found online for Client ID: ${flags['client-id']}`))
+      this.error(`No related API key found online for Client ID: ${flags['client-id']}`, {exit: false})
 
       const force = await confirm({
         default: false,
@@ -60,8 +62,7 @@ To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
       })
 
       if (!force) {
-        this.log(colors.yellow('Operation cancelled. No API key was set.'))
-        return
+        throw this.error('Operation cancelled. No API key was set.', {exit: 1})
       }
     }
 
