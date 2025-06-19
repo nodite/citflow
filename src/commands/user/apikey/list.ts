@@ -31,7 +31,7 @@ export default class List extends BaseCommand {
   async run(): Promise<void> {
     const {flags} = await this.parse(List)
 
-    const apiKeys = await this.userService.listApiKeys()
+    const apiKeys = await this.userService.listApiKeys(undefined, flags['show-inactive'])
 
     if (lodash.isEmpty(apiKeys)) {
       this.log(`No API keys found for the authenticated user.`)
