@@ -67,7 +67,7 @@ Or you can run \`citflow user apikey get\` to retrieve it later.
     const invalidApps = lodash.without(flags.apps, ...APPS)
 
     if (invalidApps.length > 0) {
-      throw this.error(`Invalid app names: ${colors.red(invalidApps.join(','))}`, {exit: 1})
+      throw this.error(`Invalid app names: ${invalidApps.join(',')}`, {exit: 1})
     }
 
     this.log('')

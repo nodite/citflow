@@ -26,6 +26,7 @@
     "cache-manager": "^7",
     "cacheable": "^1",
     "dotenv": "^16",
+    "edge-paths": "^3",
     "escodegen": "^2",
     "express": "^5",
     "fs-extra": "^11",

@@ -1,5 +1,4 @@
 import type {AuthType, AuthUser} from '@@types/login'
-import type {UserTenantsResult} from '@@types/login-service/data-constracts'
 import type {ApiKeyDto, AppName, CreateApiKeyResult} from '@@types/user-api/data-constracts'
 
 import {CacheClient} from '@components/cache'
@@ -7,6 +6,7 @@ import LoginApi from '@components/openapi/login-service/LoginService'
 import UserApi from '@components/openapi/user-api/UserApi'
 import {FLOW_BASE_URL} from '@env'
 import BaseService from '@services/base'
+import LoginService from '@services/flow/login'
 import {Cacheable, CacheUpdate} from '@type-cacheable/core'
 import Logger from '@utils/logger'
 import color from 'ansi-colors'
@@ -84,8 +84,10 @@ export default class UserService extends BaseService {
       throw this.logger.error('Principal tenant can only be retrieved for email authenticated users.', {exit: 1})
     }
 
-    const userTenants = await this.loginApi.getUserTenants({email: user.user, principal: 'true'})
-    const tenant = userTenants.data as unknown as UserTenantsResult
+    const loginService = new LoginService({jsonEnabled: this.jsonEnabled})
+    const token = await loginService.getToken(user)
+
+    const tenant = lodash.find(token.tenants, {isPrincipal: true})
 
     if (lodash.isEmpty(tenant)) {
       throw this.logger.error(`No principal tenant found for user ${color.cyan(user.auth + ':' + user.user)}.`, {
@@ -93,7 +95,7 @@ export default class UserService extends BaseService {
       })
     }
 
-    return Object.keys(tenant)[0]
+    return tenant.name
   }
 
   public async getUsers(): Promise<AuthUser[]> {

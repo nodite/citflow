@@ -46,7 +46,7 @@ export default class List extends BaseCommand {
       apiKey.appsToAccess.join(','),
       apiKey.clientId,
       flags['show-secrets']
-        ? (await this.userService.getClientSecret(apiKey.clientId)) || apiKey.secretHint
+        ? (await this.userService.getClientSecret(apiKey.clientId)) || '(not found)'
         : apiKey.secretHint,
       moment(apiKey.createdAt).format('YYYY-MM-DD HH:mm:ss'),
       moment(apiKey.expiresIn).format('YYYY-MM-DD HH:mm:ss'),

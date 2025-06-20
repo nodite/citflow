@@ -68,7 +68,7 @@ export default class LoginService extends BaseService {
       tenantUrl.searchParams.set('change_tenant', '1')
 
       this.logger.info(
-        `You have successfully logged in with the email: ${colors.cyan(generatePrincipalPolicyUrlDto.email)}. `,
+        `You have successfully logged in with the email: ${colors.cyan(generatePrincipalPolicyUrlDto.email)}`,
       )
 
       res.type('text/html')
@@ -95,7 +95,9 @@ export default class LoginService extends BaseService {
         '--enable-features=NetworkService,NetworkServiceInProcess',
         '--no-sandbox',
       ],
+      // executablePath: util.getBrowserPath(),
       headless: false,
+      // ignoreDefaultArgs: ['--enable-automation', '--disable-blink-features=AutomationControlled'],
     })
 
     const loginPage = await loginBrowser.pages().then((pages) => pages[0])
@@ -163,6 +165,7 @@ export default class LoginService extends BaseService {
   }
 
   @CacheClear({cacheKey: LoginService.CACHE_KEY_AUTH_USER(false), client: CacheClient.LOGIN})
+  @CacheClear({cacheKey: LoginService.CACHE_KEY_AUTH_USER(true), client: CacheClient.LOGIN})
   public async clearToken(_user: AuthUser): Promise<void> {}
 
   @Cacheable({cacheKey: LoginService.CACHE_KEY_AUTH_USER(false), client: CacheClient.LOGIN, ttlSeconds: 60 * 60 * 24})
