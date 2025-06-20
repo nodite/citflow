@@ -109,6 +109,7 @@
     "bin": "citflow",
     "dirname": "citflow",
     "commands": "./dist/commands",
+    "flexibleTaxonomy": true,
     "hooks": {
       "init": [
         "./dist/hooks/init/main"

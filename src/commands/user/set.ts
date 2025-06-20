@@ -10,10 +10,10 @@ export default class Set extends BaseCommand {
   static description = 'Set a default account from the list of authenticated accounts.'
 
   static examples = [
-    `$ citflow user set
+    `$ <%= config.bin %> user set
 Only one authenticated account found. Setting email:xxx@ciandt.com as default.
 Default account set to email:xxx@ciandt.com.`,
-    `$ citflow user set --email xxx@ciandt.com
+    `$ <%= config.bin %> user set --email xxx@ciandt.com
 Setting email:xxx@ciandt.com as default.
 Default account set to email:xxx@ciandt.com.`,
   ]

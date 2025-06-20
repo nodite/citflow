@@ -9,10 +9,10 @@ export default class List extends BaseCommand {
   static description = 'List all API keys for the authenticated user.'
 
   static examples = [
-    '$ citflow user apikey list',
-    '$ citflow user apikey list --show-inactive',
-    '$ citflow user apikey list --show-secrets',
-    '$ citflow user apikey list --inactive --show',
+    '$ <%= config.bin %> user apikey list',
+    '$ <%= config.bin %> user apikey list --show-inactive',
+    '$ <%= config.bin %> user apikey list --show-secrets',
+    '$ <%= config.bin %> user apikey list --inactive --show',
   ]
 
   static flags = {

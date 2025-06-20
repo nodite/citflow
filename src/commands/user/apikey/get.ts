@@ -9,13 +9,13 @@ export default class Get extends BaseCommand {
   static description = 'Get Client Secret for the authenticated user.'
 
   static examples = [
-    `$ citflow user apikey get
+    `$ <%= config.bin %> user apikey get
 Select an API key to retrieve: my-api-key (xxx)
 ✔ Name: my-api-key
 ✔ Client ID: xxx
 ✔ Client Secret: xxx
 `,
-    `$ citflow user apikey get --search my-api-key
+    `$ <%= config.bin %> user apikey get --search my-api-key
 ✔ Name: my-api-key
 ✔ Client ID: xxx
 ✔ Client Secret: xxx

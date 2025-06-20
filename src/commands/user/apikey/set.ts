@@ -9,14 +9,14 @@ export default class Set extends BaseCommand {
   static description = 'Set an API key for the authenticated user.'
 
   static examples = [
-    `$ citflow user apikey set
+    `$ <%= config.bin %> user apikey set
 ✔ Client ID: xxx
 ✔ Client Secret: ***
 API key set successfully.
 To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
 `,
-    '$ citflow user apikey set --client-id xxx',
-    '$ citflow user apikey set --client-id xxx --client-secret yyy',
+    '$ <%= config.bin %> user apikey set --client-id xxx',
+    '$ <%= config.bin %> user apikey set --client-id xxx --client-secret yyy',
   ]
 
   static flags = {

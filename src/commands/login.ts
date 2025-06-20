@@ -6,7 +6,7 @@ export default class Login extends BaseCommand {
   static description = 'Login to CI&T Flow'
 
   static examples = [
-    `$ citflow login
+    `$ <%= config.bin %> login
 Logging in to CI&T Flow...
 A browser window has been opened at https://flow.ciandt.com/login. Please continue the login in the web browser.
 Browser window has been closed, processing the login result...
@@ -14,7 +14,7 @@ Browser window has been closed, processing the login result...
 ✔ Principal Tenant: CI&T Playground
 ✔ Active Tenant: CI&T Playground
 You have successfully logged in to CI&T Flow!`,
-    '$ citflow login --channel portal',
+    '$ <%= config.bin %> login --channel portal',
   ]
 
   static flags = {
