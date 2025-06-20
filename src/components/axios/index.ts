@@ -1,10 +1,11 @@
-import {setupCookieJar} from '@components/axios/plugin/cookie'
+import {CookieJar, setupCookieJar} from '@components/axios/plugin/cookie'
 import LoginService from '@services/flow/login'
 import UserService from '@services/flow/user'
 import Logger from '@utils/logger'
 import _axios from 'axios'
 import {AxiosCacheInstance, buildMemoryStorage, setupCache} from 'axios-cache-interceptor'
 import lodash from 'lodash'
+import {Cookie} from 'tough-cookie'
 
 const logger = new Logger('axios')
 
@@ -28,6 +29,8 @@ const createAxios = (...axiosConfig: Parameters<typeof _axios.create>) => {
       const token = await loginService.getToken(user)
 
       config.headers.Authorization = `Bearer ${token?.token}`
+
+      await CookieJar.setCookie(new Cookie({key: 'FlowToken', value: token?.token}), config.baseURL || config.url || '')
     }
 
     return config
