@@ -70,7 +70,7 @@ To retrieve the API key, run: \`citflow user apikey get --client-id xxx\`
       throw this.error('Operation cancelled.', {exit: 1})
     }
 
-    await this.userService.setApiKey(flags['client-id'], flags['client-secret'])
+    await this.userService.setClientSecret(flags['client-id'], flags['client-secret'])
 
     this.log('API key set successfully.')
 
