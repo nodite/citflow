@@ -7,7 +7,7 @@ export default class Index extends OpenAPICommand {
   static description = 'OpenAPI schema preview'
 
   static examples = [
-    `$ citflow openapi --service login-service
+    `$ <%= config.bin %> openapi --service login-service
 Preview the OpenAPI schema for the login service`,
   ]
 

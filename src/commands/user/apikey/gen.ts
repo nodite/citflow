@@ -11,7 +11,7 @@ export default class Gen extends BaseCommand {
   static description = 'Create a new API key for the authenticated user.'
 
   static examples = [
-    `$ citflow user apikey gen
+    `$ <%= config.bin %> user apikey gen
 ✔ Enter a name for the API key: citflow-ec10ca46
 ✔ Select apps to access with this API key: llm-api, metrics-api
 
@@ -27,7 +27,7 @@ Creating API key ...
 You can safely leave this window now, as the client secret cached on disk automatically.
 Or you can run \`citflow user apikey get\` to retrieve it later.
 `,
-    '$ citflow user apikey gen --name my-api-key --apps llm-api,metrics-api',
+    '$ <%= config.bin %> user apikey gen --name my-api-key --apps llm-api,metrics-api',
   ]
 
   static flags = {

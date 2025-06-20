@@ -9,13 +9,13 @@ export default class Del extends BaseCommand {
   static description = 'Delete an API key for the authenticated user.'
 
   static examples = [
-    `$ citflow user apikey del
+    `$ <%= config.bin %> user apikey del
 Select an API key to delete: my-api-key (xxx)
 Deleting API key my-api-key (xxx)...
 ? Are you sure you want to delete this API key? Yes
 ✔ API key deleted.
 `,
-    `$ citflow user apikey del --search my-api-key
+    `$ <%= config.bin %> user apikey del --search my-api-key
 Deleting API key my-api-key (xxx)...
 ? Are you sure you want to delete this API key? Yes
 ✔ API key deleted.

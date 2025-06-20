@@ -8,7 +8,7 @@ export default class Codegen extends OpenAPICommand {
   static description = 'OpenAPI code generation'
 
   static examples = [
-    `$ citflow openapi:codegen --service global-settings
+    `$ <%= config.bin %> openapi:codegen --service global-settings
 Generating code for service: global-settings
 xxx
 Code generation for service global-settings completed successfully.
